@@ -6,6 +6,23 @@
 img {
 	width: 90px;
 	height: 90px;
-	float:left;
 	
+}
+#stream {
+	position: relative;
+	padding: 10px;
+	border: black solid 3px;
+}
+#name{
+	position: absolute;
+	top: 8%;
+	left: 30%;
+}
+#status{
+	position: absolute;
+	top: 35%;
+	left: 30%;
+}
+a {
+	display: block;
 }
