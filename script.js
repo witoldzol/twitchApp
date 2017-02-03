@@ -1,30 +1,29 @@
 $(document).ready(function(){
 	//makes a call and searches streams api to see if channel is online
-	
+	var onlineOffline = 0;
 	function checkIfOnline(targetDiv){
-		var targetDiv = targetDiv;
+		//we pass in variable from outside
 		$.ajax({
 			type: 'GET',
 			url: "https://api.twitch.tv/kraken/streams/freecodecamp",
 			headers: {
 				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 			},
-			success: function(data, targetDiv) {
+			success: function(data) {
 				if (data['stream'] == null){
-					console.log("Offline");
-					//$(targetDiv).append($('<p id="offline">Offline</p>'));
+					return onlineOffline = "offline";
+					
 				}else {
-					return "Online";
-					//$(targetDiv).append($('<p id="online">Online</p>'));
+					return onlineOffline =  "Online";
 				}
 			},
+
 		});	
 	}
 
 	$.ajax({
 		type: 'GET',
 		url: "https://api.twitch.tv/kraken/channels/freecodecamp",
-		//url: "https://api.twitch.tv/kraken/channels/brunofin",
 		headers: {
 			'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 		},
@@ -73,8 +72,8 @@ $(document).ready(function(){
 		}
 	});		
 	//searchbox 
-	$("#search").on("keyup", function(){
-		
+	$("#button").on("click", function(){
+		$("#result").empty();
 		var search = $("#search").val();
 
 		$.ajax({
@@ -90,12 +89,17 @@ $(document).ready(function(){
 				var status = data['status'];
 				var logo = data['logo']
 				var channelName = data['display_name'];
-				$(targetDiv).append($('<a href='+channeLink+' target="_blank" <div id="stream"><img src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
+				$(targetDiv).append($('<a href='+channeLink+' target="_blank" <div id="stream" class="target"><img src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
+				checkIfOnline()
 				
-				
-				$(targetDiv).append($('<p id="offline">'+ checkIfOnline() +'</p>'));
+				$(".target").append($('<p id="onlineOffline">'+ onlineOffline +'</p>'));
 
-			}
+			},
+			error: function(data){
+				var targetDiv = "#result";
+				$(targetDiv).append($('<div id="stream" class="target"><p>'+search+'</p><p id="notExist">Stream doesnt exist</p><div>'));
+			},
+
 
 		});
 	});
