@@ -5,7 +5,7 @@ $(document).ready(function(){
 		//we pass in variable from outside
 		$.ajax({
 			type: 'GET',
-			url: "https://api.twitch.tv/kraken/streams/freecodecamp",
+			url: "https://api.twitch.tv/kraken/streams/"+search+"",
 			headers: {
 				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 			},
@@ -38,9 +38,24 @@ $(document).ready(function(){
 			var status = data['status'];
 			var logo = data['logo']
 			var channelName = data['display_name'];
-			$("#featured").append($('<a href='+channeLink+' target="_blank" <div id="stream" class="stream0"><img src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
+			$("#streamFCC").append($('<a href='+channeLink+' target="_blank" <div id="stream" class="stream0"><img src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
 			
-			checkIfOnline();
+		$.ajax({
+			type: 'GET',
+			url: "https://api.twitch.tv/kraken/streams/freecodecamp",
+			headers: {
+				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
+			},
+			success: function(data) {
+				if (data['stream'] == null){
+					$(".stream0").append($('<p id="onlineOffline">'+ "Offline" +'</p>'));
+					
+				}else {
+					$(".stream0").append($('<p id="onlineOffline">'+ "Online" +'</p>'));
+				}
+			},
+
+		});	
 		}
 	});	
 
