@@ -38,7 +38,7 @@ $(document).ready(function(){
 			var status = data['status'];
 			var logo = data['logo']
 			var channelName = data['display_name'];
-			$("#streamFCC").append($('<a href='+channeLink+' target="_blank" <div id="stream" class="stream0"><img src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
+			$("#streamFCC").append($('<a href='+channeLink+' target="_blank" <div id="stream" class="stream0"><img class="img-thumbnail" src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
 			
 		$.ajax({
 			type: 'GET',
@@ -81,8 +81,7 @@ $(document).ready(function(){
 			var logo = data['featured'][i]['stream']['channel']['logo']
 			var channelName = data['featured'][i]['stream']['channel']['display_name'];
 			//creating stream containers and giving them a class number so i can modify them on the fly in future (i+1)
-			$("#featured").append($('<a href='+channeLink+' target="_blank" <div id="stream" class="stream'+(i+1)+'"><img src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
-			//$("#streamContainer").append($('<div id="stream"><img src="'+logo+'"><p>'+channelName+'</p><p>'+status+'</p></div>'));
+			$("#featured").append($('<a href='+channeLink+' target="_blank" <div id="stream" class="stream'+(i+1)+'"><img class="img-thumbnail" src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
 			}
 		}
 	});		
@@ -104,11 +103,11 @@ $(document).ready(function(){
 				var status = data['status'];
 				var logo = data['logo']
 				var channelName = data['display_name'];
-				$(targetDiv).append($('<a href='+channeLink+' target="_blank" <div id="stream" class="target"><img src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
+				$(targetDiv).append($('<a href='+channeLink+' target="_blank" <div id="stream" class="target"><img class="img-thumbnail" src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
 				checkIfOnline()
 				
 				$(".target").append($('<p id="onlineOffline">'+ onlineOffline +'</p>'));
-
+				
 			},
 			error: function(data){
 				var targetDiv = "#result";
