@@ -38,7 +38,7 @@ $(document).ready(function(){
 			var status = data['status'];
 			var logo = data['logo']
 			var channelName = data['display_name'];
-			$("#streamFCC").append($('<a href='+channeLink+' target="_blank" <div id="stream" class="stream0"><img class="img-thumbnail" src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
+			$("#streamFCC").append($('<div id="streamWrap"><img class="img-thumbnail" src="'+logo+'"><div id="stream" class="stream0 row"><p id="name" class="col-xs-10">'+channelName+'</p><p id="status" class="col-xs-10">'+status+'</p></div></div>'));
 			
 		$.ajax({
 			type: 'GET',
@@ -89,7 +89,7 @@ $(document).ready(function(){
 	$("#button").on("click", function(){
 		$("#result").empty();
 		var search = $("#search").val();
-
+		//call for a searched channel
 		$.ajax({
 			type: 'GET',
 			url: "https://api.twitch.tv/kraken/channels/"+search+"",
@@ -103,11 +103,12 @@ $(document).ready(function(){
 				var status = data['status'];
 				var logo = data['logo']
 				var channelName = data['display_name'];
-				$(targetDiv).append($('<a href='+channeLink+' target="_blank" <div id="stream" class="target"><img class="img-thumbnail" src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
+				$(targetDiv).append($('<a href='+channeLink+' target="_blank" <div id="stream" class="target"><img class="img-thumbnail" alt="No image set :(" src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
+				//call to function to check if given channel is online
 				checkIfOnline()
 				
 				$(".target").append($('<p id="onlineOffline">'+ onlineOffline +'</p>'));
-				
+
 			},
 			error: function(data){
 				var targetDiv = "#result";
@@ -118,3 +119,5 @@ $(document).ready(function(){
 		});
 	});
 });
+
+

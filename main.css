@@ -1,19 +1,30 @@
+* {
+	color: black;
+	font-family: courier;
+}
+
 #wrapper {
 	overflow: scroll;
 
 
 }
 img {
+	display: block;
 	width: 90px;
 	height: 90px;
 
 }
-#stream {
-	background-color: #636FA4;
-	position: relative;
-	padding: 10px;
-	border: black solid 3px;
+#streamWrap {
+	border: solid black 2px;
+	margin: 2% 0 2% 0;
 }
+#stream {
+	padding: 10px;
+	display: inline-block;
+	vertical-align: top;
+
+}
+
 #name{
 	display: block;
 }
@@ -30,10 +41,12 @@ a:link{
 	color:white;
 }
 
+
 /* input box  */
 #search {
 	font-size: 20px;
 	width: 100%;
+	margin: 3% 0 3% 0;
 }
 #search:focus {
 }
