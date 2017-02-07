@@ -27,39 +27,37 @@ $(document).ready(function(){
 		headers: {
 			'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 		},
-		error: function(){
-			//test set only for brunofin channel
-			$('#featured').append($('<div id="stream" class="stream0"><p>brunofin</p><p id="notExist">Stream doesnt exist</p><div>'));
-		},
 		success: function(data) {
 			console.log(data);
-			var targetDiv = "#featured"
+			var targetDiv = "#streamFCC"
 			var channeLink = data['url'];
 			var status = data['status'];
 			var logo = data['logo']
 			var channelName = data['display_name'];
-			$("#streamFCC").append($('<div id="streamWrap"><img class="img-thumbnail" src="'+logo+'"><div id="stream" class="stream0 row"><p id="name" class="col-xs-10">'+channelName+'</p><p id="status" class="col-xs-10">'+status+'</p></div></div>'));
-			
-		$.ajax({
-			type: 'GET',
-			url: "https://api.twitch.tv/kraken/streams/freecodecamp",
-			headers: {
-				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
-			},
-			success: function(data) {
-				if (data['stream'] == null){
-					$(".stream0").append($('<p id="onlineOffline">'+ "Offline" +'</p>'));
-					
-				}else {
-					$(".stream0").append($('<p id="onlineOffline">'+ "Online" +'</p>'));
-				}
-			},
+			$.ajax({
+				type: 'GET',
+				url: "https://api.twitch.tv/kraken/streams/freecodecamp",
+				headers: {
+					'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
+				},
+				success: function(data) {
+					if (data['stream'] == null){
+							$("#streamFCC").append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Offline</p>'));
 
-		});	
+					}else {
+							$("#streamFCC").append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Online</p>'));
+
+					}
+				},
+
+			});	
+			console.log(onlineOffline);
+			
+		
 		}
 	});	
 
-	
+	//Featured streams call
 	$.ajax({
 		type: 'GET',
 		url: "https://api.twitch.tv/kraken/streams/featured",
@@ -81,7 +79,8 @@ $(document).ready(function(){
 			var logo = data['featured'][i]['stream']['channel']['logo']
 			var channelName = data['featured'][i]['stream']['channel']['display_name'];
 			//creating stream containers and giving them a class number so i can modify them on the fly in future (i+1)
-			$("#featured").append($('<a href='+channeLink+' target="_blank" <div id="stream" class="stream'+(i+1)+'"><img class="img-thumbnail" src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
+			$("#featured").append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Online</p>'));
+
 			}
 		}
 	});		
@@ -103,12 +102,11 @@ $(document).ready(function(){
 				var status = data['status'];
 				var logo = data['logo']
 				var channelName = data['display_name'];
-				$(targetDiv).append($('<a href='+channeLink+' target="_blank" <div id="stream" class="target"><img class="img-thumbnail" alt="No image set :(" src="'+logo+'"><p id="name">'+channelName+'</p><p id="status">'+status+'</p></div></a>'));
-				//call to function to check if given channel is online
-				checkIfOnline()
+				checkIfOnline();
+				$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>'+onlineOffline+'</p>'));
+			
 				
-				$(".target").append($('<p id="onlineOffline">'+ onlineOffline +'</p>'));
-
+			//fix this
 			},
 			error: function(data){
 				var targetDiv = "#result";
