@@ -1,8 +1,9 @@
 $(document).ready(function(){
+
 	//makes a call and searches streams api to see if channel is online
-	var onlineOffline = 0;
-	function checkIfOnline(targetDiv){
-		//we pass in variable from outside
+	
+	function checkIfOnline(){
+		var search = $("#search").val();
 		$.ajax({
 			type: 'GET',
 			url: "https://api.twitch.tv/kraken/streams/"+search+"",
@@ -10,15 +11,21 @@ $(document).ready(function(){
 				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 			},
 			success: function(data) {
+
 				if (data['stream'] == null){
-					return onlineOffline = "offline";
-					
+					test = "on";
+					return test;
 				}else {
-					return onlineOffline =  "Online";
+					test = "online";
+					return test;
 				}
-			},
+
+			}
 
 		});	
+		alert(test);
+		return test;
+
 	}
 
 	$.ajax({
@@ -41,6 +48,7 @@ $(document).ready(function(){
 					'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 				},
 				success: function(data) {
+
 					if (data['stream'] == null){
 							$("#streamFCC").append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Offline</p>'));
 
@@ -51,9 +59,6 @@ $(document).ready(function(){
 				},
 
 			});	
-			console.log(onlineOffline);
-			
-		
 		}
 	});	
 
@@ -87,6 +92,7 @@ $(document).ready(function(){
 	//searchbox 
 	$("#button").on("click", function(){
 		$("#result").empty();
+
 		var search = $("#search").val();
 		//call for a searched channel
 		$.ajax({
@@ -96,14 +102,14 @@ $(document).ready(function(){
 				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 			},
 			success: function(data) {
+				var search = $("#search").val();
 				var targetDiv = "#result";
-				console.log(data);
 				var channeLink = data['url'];
 				var status = data['status'];
 				var logo = data['logo']
 				var channelName = data['display_name'];
-				checkIfOnline();
-				$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>'+onlineOffline+'</p>'));
+				
+				$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>'+checkIfOnline()+'</p>'));
 			
 				
 			//fix this
@@ -116,6 +122,7 @@ $(document).ready(function(){
 
 		});
 	});
+	test = "dafd";
 });
 
 
