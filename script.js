@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	//makes a call and searches streams api to see if channel is online
-	
+	var test ="dafd";
 	function checkIfOnline(){
 		var search = $("#search").val();
 		$.ajax({
@@ -11,21 +11,20 @@ $(document).ready(function(){
 				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 			},
 			success: function(data) {
-
+				alert(data['stream']);
 				if (data['stream'] == null){
-					test = "on";
-					return test;
+					
+					test = "Offline";
+					
 				}else {
-					test = "online";
-					return test;
+					test = "Online";
+					
 				}
-
+			
 			}
 
 		});	
-		alert(test);
-		return test;
-
+	
 	}
 
 	$.ajax({
@@ -63,6 +62,7 @@ $(document).ready(function(){
 	});	
 
 	//Featured streams call
+	
 	$.ajax({
 		type: 'GET',
 		url: "https://api.twitch.tv/kraken/streams/featured",
@@ -90,39 +90,41 @@ $(document).ready(function(){
 		}
 	});		
 	//searchbox 
-	$("#button").on("click", function(){
-		$("#result").empty();
+	var searchChannel=
+		$("#button").on("click", function(){
+			$("#result").empty();
 
-		var search = $("#search").val();
-		//call for a searched channel
-		$.ajax({
-			type: 'GET',
-			url: "https://api.twitch.tv/kraken/channels/"+search+"",
-			headers: {
-				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
-			},
-			success: function(data) {
-				var search = $("#search").val();
-				var targetDiv = "#result";
-				var channeLink = data['url'];
-				var status = data['status'];
-				var logo = data['logo']
-				var channelName = data['display_name'];
+			var search = $("#search").val();
+
+			//call for a searched channel
+			$.ajax({
+				type: 'GET',
+				url: "https://api.twitch.tv/kraken/channels/"+search+"",
+				headers: {
+					'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
+				},
+				success: function(data, callback) {
+					var search = $("#search").val();
+					var targetDiv = "#result";
+					var channeLink = data['url'];
+					var status = data['status'];
+					var logo = data['logo']
+					var channelName = data['display_name'];
+
+					$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>'+test+'</p>'));
 				
-				$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>'+checkIfOnline()+'</p>'));
-			
-				
-			//fix this
-			},
-			error: function(data){
-				var targetDiv = "#result";
-				$(targetDiv).append($('<div id="stream" class="target"><p>'+search+'</p><p id="notExist">Stream doesnt exist</p><div>'));
-			},
+					
+				//fix this
+				},
+				error: function(data){
+					var targetDiv = "#result";
+					$(targetDiv).append($('<div id="stream" class="target"><p>'+search+'</p><p id="notExist">Stream doesnt exist</p><div>'));
+				},
 
 
+			});
 		});
-	});
-	test = "dafd";
+	checkIfOnline(searchChannel);
 });
 
 
