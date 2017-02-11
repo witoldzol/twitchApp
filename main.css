@@ -2,50 +2,76 @@
 	color: black;
 	font-family: courier;
 }
-
+/* p tag holding all stream info*/
 #name {
 display: block;
-border: red solid 1px;
-padding: 0;
+padding: 10px;
+border-radius: 4px;
+}
+a {
+	border: dodgerblue solid 3px;
+	border-radius: 4px;
+	display: block;
+	margin-bottom: 10px;
+	display: flex;
+}
+#online {
+	background-color: #d2ffcc
+;
+	display: block;
+}
+#offline {
+	background-color: #ffccd6;
+	display: block;
+}
+#noChannel {
+	background-color: #ff7f99;
+	display: block;
 }
 img {
 	display: block;
 	width: 120px;
 	height: 120px;
 	float: left;
+	margin-right: 15px;
 }
-
-a {
-	display: block;
-	color: inherit;
-	text-decoration: none;	
-}
-a:link{
-	color:white;
-}
-
-
 /* input box  */
 #search {
 	font-size: 20px;
 	width: 100%;
 	margin: 3% 0 3% 0;
+	border: 2px solid dodgerblue;
 }
 #search:focus {
-}
-.btn {
 }
 .input-group {
 	margin-bottom: 10px;
 }
-
-#onlineOffline {
-	display: block;
+a:hover {
+	opacity: 0.8;
+	text-decoration: none !important;
 }
+p {
+	padding: 0 0 10px 5px !important;
 
-
-
-
-
-
-
+}
+#spanOnline {
+	border-radius: 2px;
+	background-color: #24a92c !important;
+	color: white !important;
+	margin: 0 0 0 85% !important;
+	text-align: center;
+	width: 15%;
+	padding: 0 !important;
+	display: inline-block !important;
+}
+#spanOffline {
+	border-radius: 2px;
+	background-color: #ff1947 !important;
+	color: white !important;
+	margin: 0 0 0 85% !important;
+	text-align: center;
+	width: 15%;
+	padding: 0 !important;
+	display: inline-block !important;
+}

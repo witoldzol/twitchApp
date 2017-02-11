@@ -5,21 +5,23 @@ $(document).ready(function(){
 		$("#result").empty();
 		//search bar value
 		var search = $("#search").val();
-
+		var targetDiv = "#result"
+		var noStream = "http://santirodriguez.es/wp-content/uploads/2016/04/no-videos.jpg";
 		$.ajax({
-
 			type: 'GET',
 			url: "https://api.twitch.tv/kraken/channels/"+search+"",
 			headers: {
 				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 			},
 			success: function(data) {
-				console.log(data);
-				var targetDiv = "#result"
-				var channeLink = data['url'];
-				var status = data['status'];
-				var logo = data['logo']
-				var channelName = data['display_name'];
+			var channeLink = data['url'];
+
+			var status = data['status'];
+
+			var logo = data['logo']
+
+			var channelName = data['display_name'];
+	
 				$.ajax({
 					type: 'GET',
 					url: "https://api.twitch.tv/kraken/streams/"+search+"",
@@ -29,50 +31,27 @@ $(document).ready(function(){
 					success: function(data) {
 						console.log(data);
 						if (data['stream'] == null){
-								$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Offline</p>'));
+								$(targetDiv).append($('<a id="offline" target="_blank" href="'+channeLink+'"><span id="spanOffline">offline</span><p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'"><strong>'+channelName+'</strong><br><br>'+status+'</p></a>'));
 
 						}else {
-								$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Online</p>'));
-
+								$(targetDiv).append($('<a id="online" target="_blank" href="'+channeLink+'"><span id="spanOnline">online</span><p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'"><strong>'+channelName+'</strong><br><br>'+status+'</p></a>'));
 						}
 					},
-					
-
 				});	
-
 			},
 			error: function(data){
-				console.log(data);
-				var targetDiv = "#result";
-				$(targetDiv).append($('<div id="stream" class="target"><p>'+search+'</p><p id="notExist">Stream doesnt exist</p><div>'));
+				var channeLink = data['url'];
+
+				var status = data['status'];
+
+				var logo = data['logo']
+
+
+				var chStatus = "Sorry, this channel doesn't exist. Try different name.";
+				$(targetDiv).append($('<a id="noChannel" target="_blank" href="'+channeLink+'"><span id="spanOffline">not found</span><p id="name" class="container-fluid"><img class="img-thumbnail" src="http://santirodriguez.es/wp-content/uploads/2016/04/no-videos.jpg"><strong>'+search+'</strong><br><br>'+chStatus+'</p></a>'));
 			},
 		});	
 	});
-	
-
-	
-	//CREATES CHANNEL ELEMENT 
-	function searchChannel(){
-		$.ajax({
-			type: 'GET',
-			url: "https://api.twitch.tv/kraken/channels/"+search+"",
-			headers: {
-				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
-			},
-			success: function(data) {
-				$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>'+test+'</p>'));
-			},	
-			error: function(data){
-				var targetDiv = "#result";
-				$(targetDiv).append($('<div id="stream" class="target"><p>'+search+'</p><p id="notExist">Stream doesnt exist</p><div>'));
-			},
-		});	
-	}
-
-
-
-	//old-----------
-
 
 	//FREE CODE CAMP AJAX
 	$.ajax({
@@ -96,10 +75,10 @@ $(document).ready(function(){
 				success: function(data) {
 
 					if (data['stream'] == null){
-							$("#streamFCC").append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Offline</p>'));
+							$("#streamFCC").append($('<a id="offline" target="_blank" href="'+channeLink+'"><span id="spanOffline">offline</span><p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'"><strong>'+channelName+'</strong><br><br>'+status+'</p></a>'));
 
 					}else {
-							$("#streamFCC").append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Online</p>'));
+							$("#streamFCC").append($('<a id="online" target="_blank" href="'+channeLink+'"><span id="spanOnline">online</span><p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'"><strong>'+channelName+'</strong><br><br>'+status+'</p></a>'));
 
 					}
 				},
@@ -127,7 +106,7 @@ $(document).ready(function(){
 			var logo = data['featured'][i]['stream']['channel']['logo']
 			var channelName = data['featured'][i]['stream']['channel']['display_name'];
 			//creating stream containers and giving them a class number so i can modify them on the fly in future (i+1)
-			$("#featured").append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Online</p>'));
+			$("#featured").append($('<a id="online" target="_blank" href="'+channeLink+'"><span id="spanOnline">online</span><p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'"><strong>'+channelName+'</strong><br><br>'+status+'</p></a>'));
 
 			}
 		}
