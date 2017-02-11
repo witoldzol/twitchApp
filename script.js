@@ -1,32 +1,80 @@
 $(document).ready(function(){
 
-	//makes a call and searches streams api to see if channel is online
-	var test ="dafd";
-	function checkIfOnline(){
+	$("#button").on("click", function(){
+		//empty previous element created by search
+		$("#result").empty();
+		//search bar value
 		var search = $("#search").val();
+
 		$.ajax({
+
 			type: 'GET',
-			url: "https://api.twitch.tv/kraken/streams/"+search+"",
+			url: "https://api.twitch.tv/kraken/channels/"+search+"",
 			headers: {
 				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 			},
 			success: function(data) {
-				alert(data['stream']);
-				if (data['stream'] == null){
-					
-					test = "Offline";
-					
-				}else {
-					test = "Online";
-					
-				}
-			
-			}
+				console.log(data);
+				var targetDiv = "#result"
+				var channeLink = data['url'];
+				var status = data['status'];
+				var logo = data['logo']
+				var channelName = data['display_name'];
+				$.ajax({
+					type: 'GET',
+					url: "https://api.twitch.tv/kraken/streams/"+search+"",
+					headers: {
+						'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
+					},
+					success: function(data) {
+						console.log(data);
+						if (data['stream'] == null){
+								$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Offline</p>'));
 
+						}else {
+								$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>Online</p>'));
+
+						}
+					},
+					
+
+				});	
+
+			},
+			error: function(data){
+				console.log(data);
+				var targetDiv = "#result";
+				$(targetDiv).append($('<div id="stream" class="target"><p>'+search+'</p><p id="notExist">Stream doesnt exist</p><div>'));
+			},
 		});	
+	});
 	
+
+	
+	//CREATES CHANNEL ELEMENT 
+	function searchChannel(){
+		$.ajax({
+			type: 'GET',
+			url: "https://api.twitch.tv/kraken/channels/"+search+"",
+			headers: {
+				'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
+			},
+			success: function(data) {
+				$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>'+test+'</p>'));
+			},	
+			error: function(data){
+				var targetDiv = "#result";
+				$(targetDiv).append($('<div id="stream" class="target"><p>'+search+'</p><p id="notExist">Stream doesnt exist</p><div>'));
+			},
+		});	
 	}
 
+
+
+	//old-----------
+
+
+	//FREE CODE CAMP AJAX
 	$.ajax({
 		type: 'GET',
 		url: "https://api.twitch.tv/kraken/channels/freecodecamp",
@@ -34,7 +82,6 @@ $(document).ready(function(){
 			'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 		},
 		success: function(data) {
-			console.log(data);
 			var targetDiv = "#streamFCC"
 			var channeLink = data['url'];
 			var status = data['status'];
@@ -56,12 +103,12 @@ $(document).ready(function(){
 
 					}
 				},
-
 			});	
+
 		}
 	});	
 
-	//Featured streams call
+	//FEATURED CHANNELS AJAX
 	
 	$.ajax({
 		type: 'GET',
@@ -70,13 +117,9 @@ $(document).ready(function(){
 			'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
 		},
 		success: function(data) {
-			console.log(data);
 			//array variable, we have to break the path to final objects in order to loop them
 
 			//var image = data['featured'][0]['image'];
-			console.log(channeLink);
-			console.log(logo);
-			console.log(data['featured'].length);
 			for(i=0; i<5; i++){
 
 			var channeLink = data['featured'][i]['stream']['channel']['url'];
@@ -89,42 +132,9 @@ $(document).ready(function(){
 			}
 		}
 	});		
-	//searchbox 
-	var searchChannel=
-		$("#button").on("click", function(){
-			$("#result").empty();
-
-			var search = $("#search").val();
-
-			//call for a searched channel
-			$.ajax({
-				type: 'GET',
-				url: "https://api.twitch.tv/kraken/channels/"+search+"",
-				headers: {
-					'Client-ID': "4rbydljvsruh725vzyflpl3dpurhpa"
-				},
-				success: function(data, callback) {
-					var search = $("#search").val();
-					var targetDiv = "#result";
-					var channeLink = data['url'];
-					var status = data['status'];
-					var logo = data['logo']
-					var channelName = data['display_name'];
-
-					$(targetDiv).append($('<p id="name" class="container-fluid"><img class="img-thumbnail" src="'+logo+'">'+channelName+'<br>'+status+'<br><br>'+test+'</p>'));
-				
-					
-				//fix this
-				},
-				error: function(data){
-					var targetDiv = "#result";
-					$(targetDiv).append($('<div id="stream" class="target"><p>'+search+'</p><p id="notExist">Stream doesnt exist</p><div>'));
-				},
-
-
-			});
-		});
-	checkIfOnline(searchChannel);
+	
+		
+	
 });
 
 
